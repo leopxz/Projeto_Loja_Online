@@ -1,0 +1,140 @@
+#include "funcoes.h"
+
+int main(void) {
+  cadastro jogador[TAMVET];
+  int pergunta;
+
+  do {
+    printf("\n Bem-vindo a copa do mundo de 2022 no Catar. Qual operação deseja realizar?\n1. Entrar com o nome do Jogador\n2. "
+           "Visualizar jogador\n3. Atualizar jogador\n4. Deletar jogador\n5. "
+           "Encerrar\n");
+    scanf("%i", &pergunta);
+    escolhas(pergunta, jogador);
+  } while (pergunta != 5);
+}
+
+// Mensagem de boas vindas na tela inicial com 5 opções para escolher por onde começar, qualquer numero que nao seja de 1 a 5,
+vai mostrar uma mensagem de "Valor inserido é inválido" pedindo para selecionar a numeração correta.
+-----------------------------------------------------------------------
+
+#include "cabecalho.h"
+#include <stdio.h>
+#include <string.h>
+#define SIM 1
+// entra com jogador
+void funcaoEntrajogador(cadastro jogador[], int pos) {
+  printf("\n Linha: %i", pos);
+  printf("\n Entre codigo:");
+  scanf(" %i", &jogador[pos].codigo);
+  printf("\n Nome:");
+  scanf(" %s", jogador[pos].nome);
+  printf("\n Nota:");
+  scanf(" %f", &jogador[pos].nota);
+}
+// imprime o jogador desejado
+
+void funcaoMostrajogador(cadastro jogador[], int pos) {
+  printf("\n Linha: %i\n Codigo:%i\n Nome:%s\n Nota:%g\n", pos,
+         jogador[pos].codigo, jogador[pos].nome, jogador[pos].nota);
+}
+
+
+// deleta o nome jogador cadastrado
+void deletajogador(cadastro jogador[], int pos) {
+  jogador[pos].codigo = 0;
+  strcpy(jogador[pos].nome, "\0");
+  jogador[pos].nota = 0;
+}
+
+
+// atualiza um cadastro
+void atualizar(cadastro jogador[], int pos, int opcao) {
+  int valida = 0;
+  switch (opcao) {
+  case 1:
+      printf("\n Entre codigo:");
+      scanf(" %i", &jogador[pos].codigo);
+    break;
+  case 2:
+    printf("\n Nome:");
+    scanf(" %s", jogador[pos].nome);
+    break;
+  case 3:
+    printf("\n Nota:");
+    scanf(" %f", &jogador[pos].nota);
+    break;
+  }
+}
+// menu de escolhas
+void escolhas(int pergunta, cadastro jogador[]) {
+  int i, opcao, rept;
+  switch (pergunta) {  
+  case 1:
+//    printf("Qual linha será Inserida? ");
+//    scanf("%i", &i);
+    if ( posicaoTabela < TAMVET ){
+        funcaoEntrajogador(jogador, posicaoTabela);
+        posicaoTabela++;
+      }
+    else {
+      printf("\n Não eh possivel inserir. Limite alcançado\n");
+    }
+    break;
+  case 2:
+    printf("Qual linha será visualizada? ");
+    scanf("%i", &i);
+    if ( i <= posicaoTabela )
+      funcaoMostrajogador(jogador, i);
+    else {
+       printf("\n Não eh possivel mostrar. Linha Invalida\n");
+    }
+    break;
+     case 3:
+    printf("Qual linha será atualizada? ");
+    scanf("%i", &i);
+    funcaoMostrajogador(jogador, i);
+    
+  do {
+      do {
+        printf("O que deseja atualizar?\n1. Código\n2. Nome\n3. Nota\n");
+        scanf("%i", &opcao);
+        atualizar(jogador, i, opcao);
+        if (opcao > 3 || opcao < 1) {
+          printf("Inválido!\n");
+        }
+      } while (opcao > 3 || opcao < 1);
+      printf("Digite 1 se deseja atualizar alguma outra informação\nDigite "
+             "qualquer outro número para continuar\n");
+      scanf("%i", &rept);
+    } while (rept == SIM);
+    break;
+  case 4:
+    printf("Qual linha deletada?");
+    scanf("%i", &i);
+    deletajogador(jogador, i);
+    printf("Deletando dados da linha %i \n", i);
+    break;
+  case 5:
+    printf("Encerrando...");
+    break;
+  default:
+    printf("Valor inserido é inválido ");
+  }
+}
+
+// Codigo com as atualizações principais do CRUDE, CRIAR, VISUALIZAR, ATUALIZAR E DELETAR.
+
+-----X----------------------------------------------------------------------------------------
+#define TNOME 30
+#define TAMVET 50
+int posicaoTabela =0;
+int numeroElementos = 0;
+int jogador = 0;
+
+typedef struct {
+  int codigo;
+  char nome[TNOME];
+  float nota;
+} cadastro;
+
+// FIM.
